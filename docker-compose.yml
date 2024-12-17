@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: your_database
+      MYSQL_USER: your_username
+      MYSQL_PASSWORD: your_password
+    ports:
+      - "3306:3306"
+
+  web:
+    build: .
+    command: python /app/src/app.py
+    container_name: flask_container
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: your_username
+      DB_PASSWORD: your_password
+      DB_NAME: your_database
+    ports:
+      - "5000:5000"
